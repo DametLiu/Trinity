@@ -1,2 +1,3 @@
+include ':mpp'
 include ':app'
 rootProject.name = "Trinity"
