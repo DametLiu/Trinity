@@ -18,4 +18,6 @@ class MPPreference(private val context: Context, private val name: String, key: 
     fun getString(key: String, default: String) : String = accessor.getString(context, name, key, default)
     fun <T> setObject(key: String, value: T) = accessor.setObject(context, name, key, value)
     fun <T> getObject(key: String, default: T) : T = accessor.getObject(context, name, key, default)
+    fun remove(key: String) = accessor.remove(context, name, key)
+    fun clear() = accessor.clear(context, name)
 }

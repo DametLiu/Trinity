@@ -7,7 +7,7 @@ import com.alibaba.fastjson.TypeReference
 import damet.android.mpp.CryptUtil.decrypt
 import damet.android.mpp.CryptUtil.encrypt
 
-object ObjectConverter {
+internal object ObjectConverter {
     fun <T> encode(obj : T, pwd: String) : String {
         return encrypt(when(obj) {
             is Boolean, Float, Double, Int, Long -> "$obj"

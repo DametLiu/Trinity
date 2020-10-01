@@ -70,6 +70,13 @@ internal class PreferenceAccessor(private val pwd:String) {
 
     fun <T> getObject(context: Context, name: String, key: String, default: T) : T =
         get(context, name, key, default)
+
+    fun remove(context: Context, name: String, key: String) =
+        context.contentResolver.delete(buildUri(name, key), null, null)
+
+    fun clear(context: Context, name: String) =
+        context.contentResolver.delete(buildUri(name, "*"), null, null)
+
 }
 
 fun ContentResolver.update(uri: Uri, contentValues: ContentValues) = update(uri, contentValues, null, null)
