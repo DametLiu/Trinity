@@ -4,18 +4,38 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import damet.android.crypt.AES
+import damet.android.crypt.MD5
+import damet.android.crypt.SHA256
+import damet.android.crypt.hex
 import damet.android.mpp.MPPreference
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        var a = AES.encrptWithRandomIV("123", "123")
-        e(a)
-        var d = AES.decryptWithRandomIV(a, "123")
+        e("================= AES =================")
+        val e = AES.encrptWithRandomIV("123", "123")
+        e(e)
+        val d = AES.decryptWithRandomIV(e, "123")
         e(d)
 
+        e("================= MD5 =================")
+        e(MD5.lower_16("123"))
+        e(MD5.upper_16("123"))
+        e(MD5.lower_32("123"))
+        e(MD5.upper_32("123"))
 
+        e("================= HEX =================")
+        e("abc" hex true)
+        e("abc" hex false)
+        e("abc".toByteArray() hex true)
+        e("abc".toByteArray() hex false)
+
+        e("================= SHA =================")
+        e(SHA256.lower("123"))
+        e(SHA256.upper("123"))
+
+        e("================= MPP =================")
         MPPreference(this, "sp", "123").apply {
             setString("name", "lisa")
             setBoolean("girl", true)

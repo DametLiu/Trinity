@@ -6,8 +6,8 @@ object SHA256 {
     fun lower(string: String) : String = sha256(string, false)
     fun upper(string: String) : String = sha256(string, true)
 
-    private fun sha256(string: String, upper: Boolean) : String {
-        val result = MessageDigest.getInstance("SHA-256").apply { update(string.toByteArray()) }.digest() hex upper
-        return if (32 > result.length) result else result.substring(0, 32)
-    }
+    private fun sha256(string: String, upper: Boolean) : String =
+        MessageDigest.getInstance(Algorithms.SHA256).apply { update(string.toByteArray()) }.digest() hex upper
 }
+
+fun String.sha256(upper: Boolean) : String = if (upper) SHA256.upper(this) else SHA256.lower(this)
