@@ -13,4 +13,4 @@ object MD5 {
         MessageDigest.getInstance(Algorithms.MD5).apply { update(string.toByteArray()) }.digest().hex(upper).substring(start, end)
 }
 
-fun String.md5(upper: Boolean) : String = if (upper) MD5.upper_32(this) else MD5.lower_32(this)
+fun String.md5(upper: Boolean = false) : String = if (upper) MD5.upper_32(this) else MD5.lower_32(this)

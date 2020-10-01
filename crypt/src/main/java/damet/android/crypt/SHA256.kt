@@ -10,4 +10,4 @@ object SHA256 {
         MessageDigest.getInstance(Algorithms.SHA256).apply { update(string.toByteArray()) }.digest() hex upper
 }
 
-fun String.sha256(upper: Boolean) : String = if (upper) SHA256.upper(this) else SHA256.lower(this)
+fun String.sha256(upper: Boolean = false) : String = if (upper) SHA256.upper(this) else SHA256.lower(this)

@@ -14,10 +14,10 @@ object AES {
     private val cipher = Cipher.getInstance("AES/CBC/PKCS5Padding")
 
     fun encrypt(str: String, pwd: String, iv: String): String =
-        Base64.encodeToString(crypty(str, SHA256.lower(pwd), CryptMode.ENCRYPT, iv), Base64.DEFAULT)
+        Base64.encodeToString(crypty(str, pwd.sha256().substring(0, 32), CryptMode.ENCRYPT, iv), Base64.DEFAULT)
 
     fun decrypt(str: String, pwd: String, iv: String): String =
-        String(crypty(str, SHA256.lower(pwd), CryptMode.DECRYPT, iv))
+        String(crypty(str, pwd.sha256().substring(0, 32), CryptMode.DECRYPT, iv))
 
     private fun crypty(str: String, pwd: String, mode: CryptMode, iv: String) : ByteArray {
         val len = 32.coerceAtLeast(pwd.toByteArray().size)
@@ -36,10 +36,10 @@ object AES {
     }
 
     fun encrptWithRandomIV(str: String, pwd: String) : String =
-        Base64.encodeToString(crypty("${generateRandomIV16()}$str", SHA256.lower(pwd), CryptMode.ENCRYPT, generateRandomIV16()), Base64.DEFAULT)
+        Base64.encodeToString(crypty("${generateRandomIV16()}$str", pwd.sha256().substring(0, 32), CryptMode.ENCRYPT, generateRandomIV16()), Base64.DEFAULT)
 
     fun decryptWithRandomIV(str: String, pwd: String): String =
-        String(crypty(str, SHA256.lower(pwd), CryptMode.DECRYPT, generateRandomIV16())).substring(16)
+        String(crypty(str, pwd.sha256().substring(0, 32), CryptMode.DECRYPT, generateRandomIV16())).substring(16)
 
     private fun generateRandomIV16() : String {
         val ranGen = SecureRandom()

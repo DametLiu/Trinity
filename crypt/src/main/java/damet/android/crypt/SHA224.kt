@@ -10,4 +10,4 @@ object SHA224 {
         MessageDigest.getInstance(Algorithms.SHA224).apply { update(string.toByteArray()) }.digest() hex upper
 }
 
-fun String.sha224(upper: Boolean) : String = if (upper) SHA224.upper(this) else SHA224.lower(this)
+fun String.sha224(upper: Boolean = false) : String = if (upper) SHA224.upper(this) else SHA224.lower(this)

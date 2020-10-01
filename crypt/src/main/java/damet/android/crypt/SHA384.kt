@@ -10,4 +10,4 @@ object SHA384 {
         MessageDigest.getInstance(Algorithms.SHA384).apply { update(string.toByteArray()) }.digest() hex upper
 }
 
-fun String.sha384(upper: Boolean) : String = if (upper) SHA384.upper(this) else SHA384.lower(this)
+fun String.sha384(upper: Boolean = false) : String = if (upper) SHA384.upper(this) else SHA384.lower(this)
