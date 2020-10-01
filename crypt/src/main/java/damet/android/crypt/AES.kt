@@ -36,7 +36,7 @@ object AES {
     }
 
     fun encrptWithRandomIV(str: String, pwd: String) : String =
-        Base64.encodeToString(crypty("${generateRandomIV16()}str", SHA256.lower(pwd), CryptMode.ENCRYPT, generateRandomIV16()), Base64.DEFAULT)
+        Base64.encodeToString(crypty("${generateRandomIV16()}$str", SHA256.lower(pwd), CryptMode.ENCRYPT, generateRandomIV16()), Base64.DEFAULT)
 
     fun decryptWithRandomIV(str: String, pwd: String): String =
         String(crypty(str, SHA256.lower(pwd), CryptMode.DECRYPT, generateRandomIV16())).substring(16)

@@ -3,11 +3,18 @@ package damet.android.trinity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import damet.android.crypt.AES
 import damet.android.mpp.MPPreference
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        var a = AES.encrptWithRandomIV("123", "123")
+        e(a)
+        var d = AES.decryptWithRandomIV(a, "123")
+        e(d)
+
 
         MPPreference(this, "sp", "123").apply {
             setString("name", "lisa")

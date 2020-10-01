@@ -16,7 +16,7 @@ internal object ObjectConverter {
     }
 
     fun <T> decode(str : String, default: T, pwd: String) : T {
-        val str : String = AES.decryptWithRandomIV(str, pwd)
+        val str = AES.decryptWithRandomIV(str, pwd)
         return when(default) {
             is Boolean -> str.toBoolean() as T
             is Float -> str.toFloat() as T
