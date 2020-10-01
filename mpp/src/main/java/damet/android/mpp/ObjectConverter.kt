@@ -4,12 +4,11 @@ package damet.android.mpp
 
 import com.alibaba.fastjson.JSON
 import com.alibaba.fastjson.TypeReference
-import damet.android.mpp.CryptUtil.decrypt
-import damet.android.mpp.CryptUtil.encrypt
+import damet.android.crypt.AES
 
 internal object ObjectConverter {
     fun <T> encode(obj : T, pwd: String) : String {
-        return encrypt(when(obj) {
+        return AES.encrptWithRandomIV(when(obj) {
             is Boolean, Float, Double, Int, Long -> "$obj"
             is String -> obj
             else -> JSON.toJSONString(obj)
@@ -17,7 +16,7 @@ internal object ObjectConverter {
     }
 
     fun <T> decode(str : String, default: T, pwd: String) : T {
-        val str : String = decrypt(str, pwd)
+        val str : String = AES.decryptWithRandomIV(str, pwd)
         return when(default) {
             is Boolean -> str.toBoolean() as T
             is Float -> str.toFloat() as T
