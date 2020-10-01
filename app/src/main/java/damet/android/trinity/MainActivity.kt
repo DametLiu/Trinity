@@ -3,10 +3,7 @@ package damet.android.trinity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import damet.android.crypt.AES
-import damet.android.crypt.MD5
-import damet.android.crypt.SHA256
-import damet.android.crypt.hex
+import damet.android.crypt.*
 import damet.android.mpp.MPPreference
 
 class MainActivity : AppCompatActivity() {
@@ -32,8 +29,17 @@ class MainActivity : AppCompatActivity() {
         e("abc".toByteArray() hex false)
 
         e("================= SHA =================")
+        e(SHA1.lower("123"))
+        e(SHA1.upper("123"))
+        e(SHA224.lower("123"))
+        e(SHA224.upper("123"))
         e(SHA256.lower("123"))
         e(SHA256.upper("123"))
+        e(SHA384.lower("123"))
+        e(SHA384.upper("123"))
+        e(SHA512.lower("123"))
+        e(SHA512.upper("123"))
+
 
         e("================= MPP =================")
         MPPreference(this, "sp", "123").apply {
