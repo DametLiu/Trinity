@@ -1,20 +1,27 @@
 package damet.android.mpp
 
 import android.content.*
+import android.content.pm.ProviderInfo
 import android.database.Cursor
 import android.database.MatrixCursor
 import android.net.Uri
 
 internal class PreferenceProvider : ContentProvider() {
     companion object {
-        private const val AUTHORITY = "damet.android.mmp.provider"
-        private const val CONTENT = "content://$AUTHORITY/"
+        private var AUTHORITY = "damet.android.mmp.provider"
+        private var CONTENT = "content://$AUTHORITY/"
 
         const val CONTENT_VALUES_KEY = "key"
         const val CONTENT_VALUES_VALUE = "value"
 
         fun buildUri(name: String, key: String): Uri =
             Uri.parse("$CONTENT$name/$key")
+    }
+
+    override fun attachInfo(context: Context?, info: ProviderInfo?) {
+        super.attachInfo(context, info)
+        AUTHORITY = info!!.authority
+        CONTENT = "content://$AUTHORITY/"
     }
 
     private fun sp(name: String) : SharedPreferences = context!!.getSharedPreferences(name, Context.MODE_PRIVATE)
