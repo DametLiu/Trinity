@@ -33,7 +33,6 @@ internal class PreferenceProvider : ContentProvider() {
     }
 
     @Synchronized override fun query(uri: Uri, projection: Array<out String>?, selection: String?, selectionArgs: Array<out String>?, sortOrder: String? ): Cursor? {
-        println(uri.toString())
         var cursor : MatrixCursor? = null
         val sp = sp(uri.name)
         if (sp.contains(uri.key)) cursor = preferenceToCursor(sp.getString(uri.key, "")!!)

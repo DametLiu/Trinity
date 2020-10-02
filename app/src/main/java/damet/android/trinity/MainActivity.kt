@@ -63,9 +63,9 @@ class MainActivity : AppCompatActivity() {
             e(getObject("school", School("高学", "上海"), "123").toString())
         }
 
-        class MPPDelegate<T>(private val default: T, private val pwd:String = "") : ReadWriteProperty<Nothing?,T> {
+        class MPPDelegate<T>(private val default: T, private val pwd:String = "") : ReadWriteProperty<Any?,T> {
             private val p = MPPreference(this@MainActivity, "bb")
-            override fun setValue(thisRef: Nothing?, property: KProperty<*>, value: T) {
+            override fun setValue(thisRef: Any?, property: KProperty<*>, value: T) {
                 when(value) {
                     is Boolean -> p.setBoolean(property.name, value, pwd)
                     is Float -> p.setFloat(property.name, value, pwd)
@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             @Suppress("UNCHECKED_CAST")
-            override fun getValue(thisRef: Nothing?, property: KProperty<*>): T {
+            override fun getValue(thisRef: Any?, property: KProperty<*>): T {
                 return when(default) {
                     is Boolean -> p.getBoolean(property.name, default, pwd) as T
                     is Float -> p.getFloat(property.name, default, pwd) as T
@@ -91,12 +91,12 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        var a by MPPDelegate("6")
+        var a : String by MPPDelegate("6")
         e(a)
         a = "1"
         e(a)
 
-        var s by MPPDelegate(School("中学", "北京"))
+        var s by MPPDelegate(School("中学", "北京"),"123")
         e(s.toString())
         s = School("高学", "上海")
         e(s.toString())
