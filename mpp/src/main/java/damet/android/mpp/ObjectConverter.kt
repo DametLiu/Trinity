@@ -9,7 +9,7 @@ internal object ObjectConverter {
         val str = when(obj) {
             is Boolean, Float, Double, Int, Long -> "$obj"
             is String -> obj
-            else -> throw Exception("unsurppot default type")
+            else -> throw Exception("unsurppot default type ${obj!!::class.java}")
         }
         return if (pwd.isEmpty()) str else AES.encrptWithRandomIV(str, pwd)
     }
