@@ -10,9 +10,9 @@ import java.util.*
 internal class PreferenceProvider : ContentProvider() {
     companion object {
         private val AUTHORITY : String
-            get() = Properties().getProperty("AUTHORITY")
+            get() = Properties().getProperty("AUTHORITY", "damet.android.mpp.provider")
         private val CONTENT : String
-            get() = Properties().getProperty("CONTENT")
+            get() = Properties().getProperty("CONTENT", "content://damet.android.mpp.provider/")
 
         const val CONTENT_VALUES_KEY = "key"
         const val CONTENT_VALUES_VALUE = "value"
