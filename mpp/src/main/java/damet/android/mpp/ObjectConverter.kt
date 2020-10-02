@@ -13,11 +13,11 @@ internal object ObjectConverter {
             is String -> obj
             else -> JSON.toJSONString(obj)
         }
-        return if (pwd.isEmpty()) AES.encrptWithRandomIV(str, pwd) else str
+        return if (pwd.isEmpty()) str else AES.encrptWithRandomIV(str, pwd)
     }
 
     fun <T> decode(str : String, default: T, pwd: String) : T {
-        val str = if (pwd.isEmpty()) AES.decryptWithRandomIV(str, pwd) else str
+        val str = if (pwd.isEmpty()) str else AES.decryptWithRandomIV(str, pwd)
         return when(default) {
             is Boolean -> str.toBoolean() as T
             is Float -> str.toFloat() as T

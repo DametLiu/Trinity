@@ -42,19 +42,19 @@ class MainActivity : AppCompatActivity() {
 
 
         e("================= MPP =================")
-        MPPreference(this, "sp", "123").apply {
-            setString("name", "lisa")
-            setBoolean("girl", true)
-            setInt("age", 15)
-            setFloat("height", 185.7f)
-            setObject("school", School("中学", "北京"))
+        MPPreference(this, "sp").apply {
+            setString("","name", "lisa")
+            setBoolean("123","girl", true)
+            setInt("123","age", 15)
+            setFloat("123","height", 185.7f)
+            setObject("123","school", School("中学", "北京"))
 
 
-            e(getString("name", ""))
-            e(getBoolean("girl", false).toString())
-            e(getInt("age", 0).toString())
-            e(getFloat("height", 0.0f).toString())
-            e(getObject("school", null).toString())
+            e(getString("","name", ""))
+            e(getBoolean("123","girl", false).toString())
+            e(getInt("123","age", 0).toString())
+            e(getFloat("123","height", 0.0f).toString())
+            e(getObject("123","school", null).toString())
         }
     }
 
