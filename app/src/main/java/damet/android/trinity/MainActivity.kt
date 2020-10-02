@@ -93,6 +93,13 @@ class MainActivity : AppCompatActivity() {
 
         var a by MPPDelegate("6")
         e(a)
+        a = "1"
+        e(a)
+
+        var s by MPPDelegate(School("中学", "北京"))
+        e(s.toString())
+        s = School("高学", "上海")
+        e(s.toString())
     }
 
     private fun e(string: String) = Log.e(javaClass.simpleName, string)

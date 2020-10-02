@@ -25,7 +25,7 @@ internal object ObjectConverter {
             is Int -> str.toInt() as T
             is Long -> str.toLong() as T
             is String -> str as T
-            else -> JSON.parseObject(str, object : TypeReference<T>() {})
+            else -> JSON.parseObject(str, default!!::class.java)
         }
     }
 }
