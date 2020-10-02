@@ -8,15 +8,16 @@ import damet.android.crypt.AES
 
 internal object ObjectConverter {
     fun <T> encode(obj : T, pwd: String) : String {
-        return AES.encrptWithRandomIV(when(obj) {
+        val str = when(obj) {
             is Boolean, Float, Double, Int, Long -> "$obj"
             is String -> obj
             else -> JSON.toJSONString(obj)
-        }, pwd)
+        }
+        return if (pwd.isEmpty()) AES.encrptWithRandomIV(str, pwd) else str
     }
 
     fun <T> decode(str : String, default: T, pwd: String) : T {
-        val str = AES.decryptWithRandomIV(str, pwd)
+        val str = if (pwd.isEmpty()) AES.decryptWithRandomIV(str, pwd) else str
         return when(default) {
             is Boolean -> str.toBoolean() as T
             is Float -> str.toFloat() as T
