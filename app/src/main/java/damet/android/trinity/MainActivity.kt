@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
             e(getBoolean("girl", false, "123").toString())
             e(getInt("age", 0, "123").toString())
             e(getFloat("height", 0.0f, "123").toString())
-            e(getObject("school", null, "123").toString())
+            e(getObject("school", School("高学", "上海"), "123").toString())
         }
 
         class MPPDelegate<T>(private val default: T, private val pwd:String = "") : ReadWriteProperty<Nothing?,T> {
