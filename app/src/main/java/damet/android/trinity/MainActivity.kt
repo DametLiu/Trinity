@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.util.Log
 import android.webkit.WebSettings
 import androidx.annotation.RequiresApi
+import com.alibaba.fastjson.JSON
+import com.alibaba.fastjson.TypeReference
 import damet.android.crypt.*
 import damet.android.mpp.MPPreference
 import kotlin.properties.ReadWriteProperty
@@ -48,23 +50,9 @@ class MainActivity : AppCompatActivity() {
 
 
         e("================= MPP =================")
-        MPPreference(this, "sp").apply {
-            setString("name", "lisa", "")
-            setBoolean("girl", true, "123")
-            setInt("age", 15, "123")
-            setFloat("height", 185.7f, "123")
-            setObject("school", School("中学", "北京"), "123")
 
-
-            e(getString("name", "", ""))
-            e(getBoolean("girl", false, "123").toString())
-            e(getInt("age", 0, "123").toString())
-            e(getFloat("height", 0.0f, "123").toString())
-            e(getObject("school", School("高学", "上海"), "123").toString())
-        }
-
-        class MPPDelegate<T>(private val default: T, private val pwd:String = "") : ReadWriteProperty<Any?,T> {
-            private val p = MPPreference(this@MainActivity, "bb")
+        class MPPDelegate<T>(private val default: T, private val type: TypeReference<T>, private val pwd:String = "") : ReadWriteProperty<Any?,T> {
+            private val p = MPPreference("bb").apply { MPPreference.mppInit(this@MainActivity) }
             override fun setValue(thisRef: Any?, property: KProperty<*>, value: T) {
                 when(value) {
                     is Boolean -> p.setBoolean(property.name, value, pwd)
@@ -86,19 +74,13 @@ class MainActivity : AppCompatActivity() {
                     is Int -> p.getInt(property.name, default, pwd) as T
                     is Long -> p.getLong(property.name, default, pwd) as T
                     is String -> p.getString(property.name, default, pwd) as T
-                    else -> p.getObject(property.name, default, pwd)
+                    else -> p.getObject(property.name, default, type, pwd)
                 }
             }
         }
 
-        var a : String by MPPDelegate("6")
-        e(a)
-        a = "1"
-        e(a)
-
-        var s by MPPDelegate(School("中学", "北京"),"123")
-        e(s.toString())
-        s = School("高学", "上海")
+        var s by MPPDelegate(arrayListOf<School>(), object : TypeReference<ArrayList<School>>(){})
+        s = arrayListOf(School("1", "2"))
         e(s.toString())
     }
 

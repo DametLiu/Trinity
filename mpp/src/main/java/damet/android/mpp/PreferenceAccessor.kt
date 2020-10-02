@@ -5,6 +5,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.net.Uri
+import com.alibaba.fastjson.TypeReference
 import damet.android.mpp.ObjectConverter.decode
 import damet.android.mpp.ObjectConverter.encode
 import damet.android.mpp.PreferenceProvider.Companion.CONTENT_VALUES_KEY
@@ -63,12 +64,6 @@ internal class PreferenceAccessor() {
         context.contentResolver.update(buildUri(name, key), obtain(key, value, pwd))
 
     fun getString(context: Context, name: String, pwd: String, key: String, default: String) : String =
-        get(context, name, key, default, pwd)
-
-    fun <T> setObject(context: Context, name: String, pwd: String, key: String, value: T) =
-        context.contentResolver.update(buildUri(name, key), obtain(key, value, pwd))
-
-    fun <T> getObject(context: Context, name: String, pwd: String, key: String, default: T) : T =
         get(context, name, key, default, pwd)
 
     fun remove(context: Context, name: String, key: String) =
