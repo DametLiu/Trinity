@@ -1,12 +1,18 @@
 package damet.android.trinity
 
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.webkit.WebSettings
+import androidx.annotation.RequiresApi
 import damet.android.crypt.*
 import damet.android.mpp.MPPreference
+import kotlin.properties.ReadWriteProperty
+import kotlin.reflect.KProperty
 
 class MainActivity : AppCompatActivity() {
+    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -43,19 +49,50 @@ class MainActivity : AppCompatActivity() {
 
         e("================= MPP =================")
         MPPreference(this, "sp").apply {
-            setString("","name", "lisa")
-            setBoolean("123","girl", true)
-            setInt("123","age", 15)
-            setFloat("123","height", 185.7f)
-            setObject("123","school", School("中学", "北京"))
+            setString("name", "lisa", "")
+            setBoolean("girl", true, "123")
+            setInt("age", 15, "123")
+            setFloat("height", 185.7f, "123")
+            setObject("school", School("中学", "北京"), "123")
 
 
-            e(getString("","name", ""))
-            e(getBoolean("123","girl", false).toString())
-            e(getInt("123","age", 0).toString())
-            e(getFloat("123","height", 0.0f).toString())
-            e(getObject("123","school", null).toString())
+            e(getString("name", "", ""))
+            e(getBoolean("girl", false, "123").toString())
+            e(getInt("age", 0, "123").toString())
+            e(getFloat("height", 0.0f, "123").toString())
+            e(getObject("school", null, "123").toString())
         }
+
+        class MPPDelegate<T>(private val default: T, private val pwd:String = "") : ReadWriteProperty<Nothing?,T> {
+            private val p = MPPreference(this@MainActivity, "bb")
+            override fun setValue(thisRef: Nothing?, property: KProperty<*>, value: T) {
+                when(value) {
+                    is Boolean -> p.setBoolean(property.name, value, pwd)
+                    is Float -> p.setFloat(property.name, value, pwd)
+                    is Double -> p.setDouble(property.name, value, pwd)
+                    is Int -> p.setInt(property.name, value, pwd)
+                    is Long -> p.setLong(property.name, value, pwd)
+                    is String -> p.setString(property.name, value, pwd)
+                    else -> p.setObject(property.name, value, pwd)
+                }
+            }
+
+            @Suppress("UNCHECKED_CAST")
+            override fun getValue(thisRef: Nothing?, property: KProperty<*>): T {
+                return when(default) {
+                    is Boolean -> p.getBoolean(property.name, default, pwd) as T
+                    is Float -> p.getFloat(property.name, default, pwd) as T
+                    is Double -> p.getDouble(property.name, default, pwd) as T
+                    is Int -> p.getInt(property.name, default, pwd) as T
+                    is Long -> p.getLong(property.name, default, pwd) as T
+                    is String -> p.getString(property.name, default, pwd) as T
+                    else -> p.getObject(property.name, default, pwd)
+                }
+            }
+        }
+
+        var a by MPPDelegate("6")
+        e(a)
     }
 
     private fun e(string: String) = Log.e(javaClass.simpleName, string)

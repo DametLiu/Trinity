@@ -25,7 +25,7 @@ internal class PreferenceAccessor() {
         val cursor = context.contentResolver.query(buildUri(name, key))
         if (cursor != null && cursor.moveToFirst())
             result = decode(cursor.getString(cursor.getColumnIndex(CONTENT_VALUES_VALUE)), default, pwd)
-        if (!cursor!!.isClosed) cursor.close()
+        if (cursor != null && !cursor.isClosed) cursor.close()
         return result
     }
 
