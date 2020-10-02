@@ -2,6 +2,7 @@
 
 package damet.android.mpp
 
+import android.util.Log
 import com.alibaba.fastjson.JSON
 import com.alibaba.fastjson.TypeReference
 import damet.android.crypt.AES
@@ -25,8 +26,12 @@ internal object ObjectConverter {
             is Int -> str.toInt() as T
             is Long -> str.toLong() as T
             is String -> str as T
-//            else -> JSON.parseObject(str, default!!::class.java)
-            else -> JSON.parseObject(str, object : TypeReference<T>(){})
+            else -> {
+                Log.e("aaa", str)
+                Log.e("aaa", default.toString())
+                Log.e("aaa", default!!::class.java.simpleName)
+                JSON.parseObject(str, default!!::class.java)
+            }
         }
     }
 }
