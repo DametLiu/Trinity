@@ -5,11 +5,14 @@ import android.content.pm.ProviderInfo
 import android.database.Cursor
 import android.database.MatrixCursor
 import android.net.Uri
+import java.util.*
 
 internal class PreferenceProvider : ContentProvider() {
     companion object {
-        private var AUTHORITY = "damet.android.mmp.provider"
-        private var CONTENT = "content://$AUTHORITY/"
+        private val AUTHORITY : String
+            get() = Properties().getProperty("AUTHORITY")
+        private val CONTENT : String
+            get() = Properties().getProperty("CONTENT")
 
         const val CONTENT_VALUES_KEY = "key"
         const val CONTENT_VALUES_VALUE = "value"
@@ -20,8 +23,8 @@ internal class PreferenceProvider : ContentProvider() {
 
     override fun attachInfo(context: Context?, info: ProviderInfo?) {
         super.attachInfo(context, info)
-        AUTHORITY = info!!.authority
-        CONTENT = "content://$AUTHORITY/"
+        Properties().setProperty("AUTHORITY", info!!.authority)
+        Properties().setProperty("CONTENT", "content://${info!!.authority}/")
     }
 
     private fun sp(name: String) : SharedPreferences = context!!.getSharedPreferences(name, Context.MODE_PRIVATE)

@@ -17,7 +17,7 @@
             android:name="damet.android.mpp.PreferenceProvider"
             android:enabled="true"
             android:authorities="damet.android.trinity.Preference"
-            android:exported="false" />
+            android:exported="true" />
     </application>
 
 </manifest>
