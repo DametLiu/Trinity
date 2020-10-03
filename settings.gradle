@@ -1,3 +1,4 @@
+include ':v2ray'
 include ':crypt'
 include ':ext'
 include ':mpp'
