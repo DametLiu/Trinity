@@ -5,26 +5,18 @@ import android.content.pm.ProviderInfo
 import android.database.Cursor
 import android.database.MatrixCursor
 import android.net.Uri
+import java.io.DataOutputStream
+import java.io.FileOutputStream
+import java.io.StringWriter
 import java.util.*
 
 internal class PreferenceProvider : ContentProvider() {
     companion object {
-        private val AUTHORITY : String
-            get() = Properties().getProperty("AUTHORITY", "damet.android.mpp.provider")
-        private val CONTENT : String
-            get() = Properties().getProperty("CONTENT", "content://damet.android.mpp.provider/")
-
         const val CONTENT_VALUES_KEY = "key"
         const val CONTENT_VALUES_VALUE = "value"
 
-        fun buildUri(name: String, key: String): Uri =
-            Uri.parse("$CONTENT$name/$key")
-    }
-
-    override fun attachInfo(context: Context?, info: ProviderInfo?) {
-        super.attachInfo(context, info)
-        Properties().setProperty("AUTHORITY", info!!.authority)
-        Properties().setProperty("CONTENT", "content://${info!!.authority}/")
+        fun buildUri(content: String, name: String, key: String): Uri =
+            Uri.parse("$content$name/$key")
     }
 
     private fun sp(name: String) : SharedPreferences = context!!.getSharedPreferences(name, Context.MODE_PRIVATE)
@@ -47,7 +39,8 @@ internal class PreferenceProvider : ContentProvider() {
     @Synchronized override fun insert(uri: Uri, values: ContentValues?): Uri? = throw Exception("insert unsupport")
 
     @Synchronized override fun delete(uri: Uri, selection: String?, selectionArgs: Array<out String>?): Int {
-        return 0.apply { sp(uri.name).edit().remove(uri.key).apply() }
+        return if (uri.key == "*") 0.apply { sp(uri.name).edit().clear().apply() }
+        else 0.apply { sp(uri.name).edit().remove(uri.key).apply() }
     }
 
     @Synchronized override fun update( uri: Uri, values: ContentValues?, selection: String?, selectionArgs: Array<out String>? ): Int {

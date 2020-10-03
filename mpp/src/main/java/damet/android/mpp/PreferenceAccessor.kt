@@ -20,26 +20,26 @@ internal class PreferenceAccessor() {
         }
     }
 
-    private fun get(context: Context, name: String, key: String, default: String, pwd: String) : String {
+    private fun get(context: Context, content: String, name: String, key: String, default: String, pwd: String) : String {
         var result = default
-        val cursor = context.contentResolver.query(buildUri(name, key))
+        val cursor = context.contentResolver.query(buildUri(content, name, key))
         if (cursor != null && cursor.moveToFirst())
             result = decode(cursor.getString(cursor.getColumnIndex(CONTENT_VALUES_VALUE)), default, pwd)
         if (cursor != null && !cursor.isClosed) cursor.close()
         return result
     }
 
-    fun setString(context: Context, name: String, pwd: String, key: String, value: String) =
-        context.contentResolver.update(buildUri(name, key), obtain(key, value, pwd))
+    fun setString(context: Context, content: String, name: String, pwd: String, key: String, value: String) =
+        context.contentResolver.update(buildUri(content, name, key), obtain(key, value, pwd))
 
-    fun getString(context: Context, name: String, pwd: String, key: String, default: String) : String =
-        get(context, name, key, default, pwd)
+    fun getString(context: Context, content: String, name: String, pwd: String, key: String, default: String) : String =
+        get(context, content, name, key, default, pwd)
 
-    fun remove(context: Context, name: String, key: String) =
-        context.contentResolver.delete(buildUri(name, key), null, null)
+    fun remove(context: Context, content: String, name: String, key: String) =
+        context.contentResolver.delete(buildUri(content, name, key), null, null)
 
-    fun clear(context: Context, name: String) =
-        context.contentResolver.delete(buildUri(name, "*"), null, null)
+    fun clear(context: Context, content: String, name: String) =
+        context.contentResolver.delete(buildUri(content, name, "*"), null, null)
 
 }
 
