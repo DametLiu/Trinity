@@ -1,7 +1,10 @@
 # Trinity
   trinity is an android lib used to fast develope.
 
-## crypt
+## CRYPT
+```
+    implementation 'com.github.DametLiu.Trinity:crypt:1.0.25'
+```
 ### AES
 ### MD5
 ### SHA1
