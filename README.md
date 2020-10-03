@@ -3,7 +3,7 @@
 
 ## CRYPT
 ```
-    implementation 'com.github.DametLiu.Trinity:crypt:1.0.25'
+    implementation 'com.github.DametLiu.Trinity:crypt:releaseVersion'
 ```
 ### AES
 ### MD5
