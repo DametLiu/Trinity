@@ -6,10 +6,10 @@ import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
 abstract class PrimitiveDelegate<T>(private val default: T) : ReadWriteProperty<Any?, T> {
-    protected abstract var context : Context
-    protected abstract var authority : String
-    protected abstract var name : String
-    protected abstract var cryptKey: String
+    protected abstract val context : Context
+    protected abstract val authority : String
+    protected abstract val name : String
+    protected abstract val cryptKey: String
     private val p by lazy { MPPreference(name).apply { MPPreference.mppInit(context, authority) } }
     override fun setValue(thisRef: Any?, property: KProperty<*>, value: T) {
         when(value) {
