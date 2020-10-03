@@ -11,7 +11,7 @@ import damet.android.mpp.PreferenceProvider.Companion.CONTENT_VALUES_KEY
 import damet.android.mpp.PreferenceProvider.Companion.CONTENT_VALUES_VALUE
 import damet.android.mpp.PreferenceProvider.Companion.buildUri
 
-internal class PreferenceAccessor() {
+internal class PreferenceAccessor {
 
     private fun obtain(key: String, value: String, pwd: String) : ContentValues {
         return ContentValues().apply {
@@ -24,7 +24,7 @@ internal class PreferenceAccessor() {
         var result = default
         val cursor = context.contentResolver.query(buildUri(content, name, key))
         if (cursor != null && cursor.moveToFirst())
-            result = decode(cursor.getString(cursor.getColumnIndex(CONTENT_VALUES_VALUE)), default, pwd)
+            result = decode(cursor.getString(cursor.getColumnIndex(CONTENT_VALUES_VALUE)), pwd)
         if (cursor != null && !cursor.isClosed) cursor.close()
         return result
     }

@@ -1,14 +1,12 @@
 package damet.android.mpp
 
-import android.content.*
-import android.content.pm.ProviderInfo
+import android.content.ContentProvider
+import android.content.ContentValues
+import android.content.Context
+import android.content.SharedPreferences
 import android.database.Cursor
 import android.database.MatrixCursor
 import android.net.Uri
-import java.io.DataOutputStream
-import java.io.FileOutputStream
-import java.io.StringWriter
-import java.util.*
 
 internal class PreferenceProvider : ContentProvider() {
     companion object {
