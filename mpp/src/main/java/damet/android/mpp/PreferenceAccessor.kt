@@ -29,17 +29,20 @@ internal class PreferenceAccessor() {
         return result
     }
 
-    fun setString(context: Context, content: String, name: String, pwd: String, key: String, value: String) =
+    fun setString(context: Context, content: String, name: String, pwd: String, key: String, value: String) {
         context.contentResolver.update(buildUri(content, name, key), obtain(key, value, pwd))
+    }
 
     fun getString(context: Context, content: String, name: String, pwd: String, key: String, default: String) : String =
         get(context, content, name, key, default, pwd)
 
-    fun remove(context: Context, content: String, name: String, key: String) =
+    fun remove(context: Context, content: String, name: String, key: String) {
         context.contentResolver.delete(buildUri(content, name, key), null, null)
+    }
 
-    fun clear(context: Context, content: String, name: String) =
+    fun clear(context: Context, content: String, name: String) {
         context.contentResolver.delete(buildUri(content, name, "*"), null, null)
+    }
 
 }
 
