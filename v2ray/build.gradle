@@ -25,7 +25,10 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.3.2'
+    implementation 'com.alibaba:fastjson:1.2.73'
     implementation(name: 'libv2ray', ext: 'aar')
+    implementation project(path: ':mpp')
+    implementation project(path: ':crypt')
 }
 
 repositories {
