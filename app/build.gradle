@@ -34,7 +34,6 @@ dependencies {
     implementation 'com.alibaba:fastjson:1.2.73'
     implementation project(path: ':mpp')
     implementation project(path: ':crypt')
-    implementation project(path: ':v2ray')
 }
 
 repositories {

@@ -51,37 +51,7 @@ class MainActivity : AppCompatActivity() {
 
         e("================= MPP =================")
 
-        class MPPDelegate<T>(private val default: T, private val type: TypeReference<T>, private val pwd:String = "") : ReadWriteProperty<Any?,T> {
-            private val p = MPPreference("bb").apply { MPPreference.mppInit(this@MainActivity) }
-            override fun setValue(thisRef: Any?, property: KProperty<*>, value: T) {
-                when(value) {
-                    is Boolean -> p.setBoolean(property.name, value, pwd)
-                    is Float -> p.setFloat(property.name, value, pwd)
-                    is Double -> p.setDouble(property.name, value, pwd)
-                    is Int -> p.setInt(property.name, value, pwd)
-                    is Long -> p.setLong(property.name, value, pwd)
-                    is String -> p.setString(property.name, value, pwd)
-                    else -> p.setObject(property.name, value, pwd)
-                }
-            }
 
-            @Suppress("UNCHECKED_CAST")
-            override fun getValue(thisRef: Any?, property: KProperty<*>): T {
-                return when(default) {
-                    is Boolean -> p.getBoolean(property.name, default, pwd) as T
-                    is Float -> p.getFloat(property.name, default, pwd) as T
-                    is Double -> p.getDouble(property.name, default, pwd) as T
-                    is Int -> p.getInt(property.name, default, pwd) as T
-                    is Long -> p.getLong(property.name, default, pwd) as T
-                    is String -> p.getString(property.name, default, pwd) as T
-                    else -> p.getObject(property.name, default, type, pwd)
-                }
-            }
-        }
-
-        var s by MPPDelegate(arrayListOf<School>(), object : TypeReference<ArrayList<School>>(){})
-        s = arrayListOf(School("1", "2"))
-        e(s.toString())
     }
 
     private fun e(string: String) = Log.e(javaClass.simpleName, string)
