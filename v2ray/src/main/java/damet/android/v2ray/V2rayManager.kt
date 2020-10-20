@@ -35,7 +35,7 @@ import java.io.File
 import java.lang.ref.SoftReference
 
 internal object V2rayManager : V2RayVPNServiceSupportsSet {
-    private val v2rayPoint: V2RayPoint = Libv2ray.newV2RayPoint(this)
+    val v2rayPoint: V2RayPoint = Libv2ray.newV2RayPoint(this)
     private val messageReceiver: V2rayMessageReceiver = V2rayMessageReceiver()
 
     internal lateinit var v2rayService: SoftReference<V2rayService>
@@ -106,12 +106,15 @@ internal object V2rayManager : V2RayVPNServiceSupportsSet {
         return 0
     }
 
-    override fun protect(l: Long): Long {
+    override fun protect(fd: Long): Long {
         val service = v2rayService.get() ?: return 1
-        return if (service.protect(l.toInt())) 0 else 1
+        return if (service.protect(fd.toInt())) 0 else 1
     }
 
-    override fun onEmitStatus(p0: Long, p1: String?): Long = 0
+    override fun onEmitStatus(code: Long, message: String): Long {
+        d(message)
+        return 0
+    }
     override fun prepare(): Long = 0
 
     override fun shutdown(): Long {
@@ -205,5 +208,11 @@ internal object V2rayManager : V2RayVPNServiceSupportsSet {
         val service = v2rayService.get()
         if (service != null) Log.w(service.packageName, exception.toString())
         else Log.w("damet.android.v2ray", exception.toString())
+    }
+
+    private fun d(message: String) {
+        val service = v2rayService.get()
+        if (service != null) Log.d(service.packageName, message)
+        else Log.d("damet.android.v2ray", message)
     }
 }

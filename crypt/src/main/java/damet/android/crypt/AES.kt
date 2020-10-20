@@ -26,12 +26,14 @@ object AES {
         val keySpec = SecretKeySpec(pwd.toByteArray().sub(0, len), "AES")
         val ivSpec = IvParameterSpec(iv.toByteArray().sub(0, ivlen))
 
-        return if (mode == CryptMode.ENCRYPT) cipher.run {
-            init(ENCRYPT_MODE, keySpec, ivSpec)
-            doFinal(str.toByteArray())
-        } else cipher.run {
-            init(DECRYPT_MODE, keySpec, ivSpec)
-            doFinal(Base64.decode(str.toByteArray(), Base64.DEFAULT))
+        return synchronized(cipher) {
+            if (mode == CryptMode.ENCRYPT) cipher.run {
+                init(ENCRYPT_MODE, keySpec, ivSpec)
+                doFinal(str.toByteArray())
+            } else cipher.run {
+                init(DECRYPT_MODE, keySpec, ivSpec)
+                doFinal(Base64.decode(str.toByteArray(), Base64.DEFAULT))
+            }
         }
     }
 
