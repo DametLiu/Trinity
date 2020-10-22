@@ -6,24 +6,25 @@ import android.content.Context
 import android.content.Context.DOWNLOAD_SERVICE
 import android.net.Uri
 import android.os.Environment.DIRECTORY_DOWNLOADS
+import damet.android.crypt.md5
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.util.*
 
-class APKInstaller(private val context: Context, private val url: String, private val fileName: String) {
+class APKInstaller(private val context: Context, private val url: String, private val title: String) {
     fun download(autoInstall: Boolean = true, callback: (url: String, title: String, filePath: String, state: Int, downloaded: Int, total: Int) -> Unit) {
         GlobalScope.launch(Dispatchers.IO) {
             val downloadManager = context.getSystemService(DOWNLOAD_SERVICE) as DownloadManager
             val request = DownloadManager.Request(Uri.parse(url)).apply {
-                setTitle(fileName) // 通知的标题
+                setTitle(title) // 通知的标题
                 setAllowedNetworkTypes(NETWORK_WIFI or NETWORK_MOBILE) // wifi 和 移动 网络下载
                 setMimeType("application/vnd.android.package-archive") // 类型为apk
                 setNotificationVisibility(VISIBILITY_VISIBLE) // 下载过程显示通知
 
                 // 创建并设置下载路径
                 context.getExternalFilesDir(DIRECTORY_DOWNLOADS)!!.mkdir()
-                setDestinationInExternalPublicDir(DIRECTORY_DOWNLOADS, fileName)
+                setDestinationInExternalPublicDir(DIRECTORY_DOWNLOADS, "${url.md5()}.apk")
 
                 // 下载任务的id
                 val id = downloadManager.enqueue(this)
@@ -54,6 +55,6 @@ class APKInstaller(private val context: Context, private val url: String, privat
     }
 
     fun installApk() {
-        
+
     }
 }
