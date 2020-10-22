@@ -14,10 +14,11 @@ import java.io.File
 import java.util.*
 
 class APKInstaller(private val context: Context, private val url: String, private val title: String) {
-    fun download(autoInstall: Boolean = true, callback: (url: String, title: String, filePath: String, state: Int, downloaded: Int, total: Int) -> Unit) {
+    fun download(autoInstall: Boolean = true, callback: (url: String, title: String, filePath: String, state: Int, downloaded: Long, total: Long) -> Unit) {
         GlobalScope.launch(Dispatchers.IO) {
             // 文件不存在， 下载
-            if (!File(context.getExternalFilesDir(DIRECTORY_DOWNLOADS), "${url.md5()}.apk").exists()) {
+            val fielPath = File(context.getExternalFilesDir(DIRECTORY_DOWNLOADS), "${url.md5()}.apk")
+            if (!fielPath.exists()) {
                 val downloadManager = context.getSystemService(DOWNLOAD_SERVICE) as DownloadManager
                 val request = DownloadManager.Request(Uri.parse(url)).apply {
                     setTitle(title) // 通知的标题
@@ -43,7 +44,7 @@ class APKInstaller(private val context: Context, private val url: String, privat
                                     val downloaded = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR))
                                     val total = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES))
 
-                                    callback.invoke(url, title, filePath, state, downloaded, total)
+                                    callback.invoke(url, title, filePath, state, downloaded.toLong(), total.toLong())
                                     if (state == DownloadManager.STATUS_SUCCESSFUL) {
                                         cancel()
                                         if (autoInstall) installApk()
@@ -55,6 +56,7 @@ class APKInstaller(private val context: Context, private val url: String, privat
                     }
                 }
             } else { // 文件已存在直接安装
+                callback.invoke(url, title, fielPath.absolutePath, DownloadManager.STATUS_SUCCESSFUL, fielPath.length(), fielPath.length())
                 if (autoInstall) installApk()
             }
         }
