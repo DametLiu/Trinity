@@ -1,6 +1,7 @@
 package damet.android.crypt
 
 import android.util.Base64
+import damet.android.crypt.Algorithms.AES_CBC_PACK5PADDING
 import java.security.SecureRandom
 import javax.crypto.Cipher
 import javax.crypto.Cipher.DECRYPT_MODE
@@ -11,7 +12,7 @@ import javax.crypto.spec.SecretKeySpec
 object AES {
     enum class CryptMode { ENCRYPT, DECRYPT }
 
-    private val cipher = Cipher.getInstance("AES/CBC/PKCS5Padding")
+    private val cipher = Cipher.getInstance(AES_CBC_PACK5PADDING)
 
     fun encrypt(str: String, pwd: String, iv: String): String =
         Base64.encodeToString(crypty(str, pwd.sha256().substring(0, 32), CryptMode.ENCRYPT, iv), Base64.DEFAULT)
@@ -23,7 +24,7 @@ object AES {
         val len = 32.coerceAtLeast(pwd.toByteArray().size)
         val ivlen = 16.coerceAtMost(iv.toByteArray().size)
 
-        val keySpec = SecretKeySpec(pwd.toByteArray().sub(0, len), "AES")
+        val keySpec = SecretKeySpec(pwd.toByteArray().sub(0, len), Algorithms.AES)
         val ivSpec = IvParameterSpec(iv.toByteArray().sub(0, ivlen))
 
         return synchronized(cipher) {

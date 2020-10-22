@@ -2,6 +2,8 @@ package damet.android.crypt
 
 object Algorithms {
     const val MD5 = "MD5"
+    const val AES = "AES"
+    const val AES_CBC_PACK5PADDING = "AES/CBC/PKCS5Padding"
     const val SHA1 = "SHA-1"
     const val SHA224 = "SHA-224"
     const val SHA256 = "SHA-256"
