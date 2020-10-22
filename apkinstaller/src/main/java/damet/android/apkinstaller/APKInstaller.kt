@@ -40,11 +40,10 @@ class APKInstaller(private val context: Context, private val url: String, privat
                                 if (cursor != null && cursor.moveToFirst()) {
                                     val state = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS))
                                     val title = cursor.getString(cursor.getColumnIndex(DownloadManager.COLUMN_TITLE))
-                                    val filePath = cursor.getString(cursor.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI))
                                     val downloaded = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR))
                                     val total = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES))
 
-                                    callback.invoke(url, title, filePath, state, downloaded.toLong(), total.toLong())
+                                    callback.invoke(url, title, fielPath.absolutePath, state, downloaded.toLong(), total.toLong())
                                     if (state == DownloadManager.STATUS_SUCCESSFUL) {
                                         cancel()
                                         if (autoInstall) installApk()
