@@ -1,5 +1,4 @@
-include ':apkinstaller'
-include ':v2ray'
+include ':layouts'
 include ':crypt'
 include ':ext'
 include ':mpp'
