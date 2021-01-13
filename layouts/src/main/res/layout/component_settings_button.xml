@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/toolbar_back_button"
+    android:id="@+id/toolbar_settings_button"
     android:layout_width="@dimen/dimen_toolbar_height"
     android:layout_height="@dimen/dimen_toolbar_height"
     android:background="?attr/actionBarItemBackground"
@@ -16,5 +16,5 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:srcCompat="@drawable/arrow_back_24"/>
+        app:srcCompat="@drawable/settings_24"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
